@@ -104,6 +104,12 @@ const Index = () => {
             >
               <MapIcon className="w-4 h-4" />
             </button>
+            <button
+              onClick={() => setViewMode("calendar")}
+              className={`p-2 rounded-md transition-colors ${viewMode === "calendar" ? "bg-card shadow-sm text-foreground" : "text-muted-foreground"}`}
+            >
+              <CalendarDays className="w-4 h-4" />
+            </button>
           </div>
         </div>
 
