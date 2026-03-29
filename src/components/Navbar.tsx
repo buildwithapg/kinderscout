@@ -44,9 +44,9 @@ const Navbar = () => {
       {/* Mobile menu */}
       {mobileOpen && (
         <div className="md:hidden bg-card border-b border-border px-4 py-4 space-y-3">
-          <a href="/?view=map" onClick={handleExploreClick} className="block text-sm font-medium text-foreground">Explore</a>
+          <a href="/?view=map" onClick={handleNavClick("map")} className="block text-sm font-medium text-foreground">Explore</a>
           <button className="block text-sm text-muted-foreground w-full text-left">Categories</button>
-          <button className="block text-sm text-muted-foreground w-full text-left">Calendar</button>
+          <a href="/?view=calendar" onClick={handleNavClick("calendar")} className="block text-sm text-muted-foreground">Calendar</a>
           <button className="flex items-center gap-1 text-sm text-muted-foreground">
             <Heart className="w-4 h-4" /> Saved
           </button>
