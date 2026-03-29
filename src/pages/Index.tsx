@@ -82,6 +82,12 @@ const Index = () => {
             >
               <List className="w-4 h-4" />
             </button>
+            <button
+              onClick={() => setViewMode("map")}
+              className={`p-2 rounded-md transition-colors ${viewMode === "map" ? "bg-card shadow-sm text-foreground" : "text-muted-foreground"}`}
+            >
+              <MapIcon className="w-4 h-4" />
+            </button>
           </div>
         </div>
 
