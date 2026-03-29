@@ -1,16 +1,132 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState, useMemo } from "react";
+import { LayoutGrid, List } from "lucide-react";
+import Navbar from "@/components/Navbar";
+import HeroSection from "@/components/HeroSection";
+import FilterBar from "@/components/FilterBar";
+import EventCard from "@/components/EventCard";
+import { mockEvents, AgeGroup, Interest, ActivityType } from "@/data/mockEvents";
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
+const Index = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [location, setLocation] = useState("");
+  const [selectedAgeGroups, setSelectedAgeGroups] = useState<AgeGroup[]>([]);
+  const [selectedInterests, setSelectedInterests] = useState<Interest[]>([]);
+  const [selectedActivityType, setSelectedActivityType] = useState<ActivityType | null>(null);
+  const [showFreeOnly, setShowFreeOnly] = useState(false);
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+
+  const filteredEvents = useMemo(() => {
+    return mockEvents.filter((event) => {
+      // Search filter
+      if (searchQuery) {
+        const q = searchQuery.toLowerCase();
+        const matchesSearch =
+          event.title.toLowerCase().includes(q) ||
+          event.description.toLowerCase().includes(q) ||
+          event.tags.some((t) => t.toLowerCase().includes(q)) ||
+          event.location.toLowerCase().includes(q);
+        if (!matchesSearch) return false;
+      }
+
+      // Age group filter
+      if (selectedAgeGroups.length > 0) {
+        if (!event.ageGroups.some((ag) => selectedAgeGroups.includes(ag))) return false;
+      }
+
+      // Interest filter
+      if (selectedInterests.length > 0) {
+        if (!event.tags.some((t) => selectedInterests.includes(t as Interest))) return false;
+      }
+
+      // Activity type filter
+      if (selectedActivityType && event.activityType !== selectedActivityType) return false;
+
+      // Free only filter
+      if (showFreeOnly && !event.isFree) return false;
+
+      return true;
+    });
+  }, [searchQuery, selectedAgeGroups, selectedInterests, selectedActivityType, showFreeOnly]);
+
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
+    <div className="min-h-screen bg-background">
+      <Navbar />
+
+      <HeroSection onSearch={setSearchQuery} onLocationChange={setLocation} />
+
+      {/* Main content */}
+      <section className="container mx-auto px-4 py-8">
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h2 className="text-xl md:text-2xl font-bold text-foreground">
+              {searchQuery ? `Results for "${searchQuery}"` : "Discover Activities"}
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              {filteredEvents.length} activit{filteredEvents.length === 1 ? "y" : "ies"} found
+              {location && ` near ${location}`}
+            </p>
+          </div>
+
+          {/* View toggle */}
+          <div className="flex items-center gap-1 bg-muted rounded-lg p-1">
+            <button
+              onClick={() => setViewMode("grid")}
+              className={`p-2 rounded-md transition-colors ${viewMode === "grid" ? "bg-card shadow-sm text-foreground" : "text-muted-foreground"}`}
+            >
+              <LayoutGrid className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => setViewMode("list")}
+              className={`p-2 rounded-md transition-colors ${viewMode === "list" ? "bg-card shadow-sm text-foreground" : "text-muted-foreground"}`}
+            >
+              <List className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+
+        <FilterBar
+          selectedAgeGroups={selectedAgeGroups}
+          selectedInterests={selectedInterests}
+          selectedActivityType={selectedActivityType}
+          showFreeOnly={showFreeOnly}
+          onAgeGroupChange={setSelectedAgeGroups}
+          onInterestsChange={setSelectedInterests}
+          onActivityTypeChange={setSelectedActivityType}
+          onFreeOnlyChange={setShowFreeOnly}
+        />
+
+        {/* Events grid */}
+        {filteredEvents.length > 0 ? (
+          <div className={
+            viewMode === "grid"
+              ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
+              : "flex flex-col gap-4"
+          }>
+            {filteredEvents.map((event, i) => (
+              <div key={event.id} className="animate-fade-in-up" style={{ animationDelay: `${i * 0.05}s` }}>
+                <EventCard event={event} />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-16">
+            <span className="text-5xl mb-4 block">🔍</span>
+            <h3 className="text-lg font-bold text-foreground mb-1">No activities found</h3>
+            <p className="text-sm text-muted-foreground">Try adjusting your filters or search terms.</p>
+          </div>
+        )}
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-card border-t border-border mt-12 py-8">
+        <div className="container mx-auto px-4 text-center">
+          <p className="text-sm text-muted-foreground">
+            🎈 <span className="font-semibold text-foreground">KinderScout</span> — Helping parents discover amazing activities for their kids.
+          </p>
+        </div>
+      </footer>
     </div>
   );
 };
-
-const Index = PlaceholderIndex;
 
 export default Index;
