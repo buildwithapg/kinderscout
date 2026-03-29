@@ -1,9 +1,10 @@
 import { useState, useMemo } from "react";
-import { LayoutGrid, List } from "lucide-react";
+import { LayoutGrid, List, MapIcon } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import FilterBar from "@/components/FilterBar";
 import EventCard from "@/components/EventCard";
+import MapView from "@/components/MapView";
 import { mockEvents, AgeGroup, Interest, ActivityType } from "@/data/mockEvents";
 
 const Index = () => {
@@ -13,7 +14,7 @@ const Index = () => {
   const [selectedInterests, setSelectedInterests] = useState<Interest[]>([]);
   const [selectedActivityType, setSelectedActivityType] = useState<ActivityType | null>(null);
   const [showFreeOnly, setShowFreeOnly] = useState(false);
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [viewMode, setViewMode] = useState<"grid" | "list" | "map">("grid");
 
   const filteredEvents = useMemo(() => {
     return mockEvents.filter((event) => {
@@ -81,6 +82,12 @@ const Index = () => {
             >
               <List className="w-4 h-4" />
             </button>
+            <button
+              onClick={() => setViewMode("map")}
+              className={`p-2 rounded-md transition-colors ${viewMode === "map" ? "bg-card shadow-sm text-foreground" : "text-muted-foreground"}`}
+            >
+              <MapIcon className="w-4 h-4" />
+            </button>
           </div>
         </div>
 
@@ -96,7 +103,9 @@ const Index = () => {
         />
 
         {/* Events grid */}
-        {filteredEvents.length > 0 ? (
+        {viewMode === "map" ? (
+          <MapView events={filteredEvents} />
+        ) : filteredEvents.length > 0 ? (
           <div className={
             viewMode === "grid"
               ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
