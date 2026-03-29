@@ -1,9 +1,10 @@
 import { useState, useMemo } from "react";
-import { LayoutGrid, List } from "lucide-react";
+import { LayoutGrid, List, MapIcon } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import FilterBar from "@/components/FilterBar";
 import EventCard from "@/components/EventCard";
+import MapView from "@/components/MapView";
 import { mockEvents, AgeGroup, Interest, ActivityType } from "@/data/mockEvents";
 
 const Index = () => {
