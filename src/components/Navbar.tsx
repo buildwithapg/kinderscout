@@ -4,6 +4,13 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleExploreClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    navigate("/?view=map");
+    setMobileOpen(false);
+  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-card/80 backdrop-blur-md border-b border-border">

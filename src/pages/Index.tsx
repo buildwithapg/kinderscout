@@ -70,7 +70,7 @@ const Index = () => {
       <HeroSection onSearch={setSearchQuery} onLocationChange={setLocation} />
 
       {/* Main content */}
-      <section className="container mx-auto px-4 py-8">
+      <section ref={activitiesRef} className="container mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-4">
           <div>
             <h2 className="text-xl md:text-2xl font-bold text-foreground">
