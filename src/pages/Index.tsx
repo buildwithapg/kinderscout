@@ -17,7 +17,7 @@ const Index = () => {
   const [selectedInterests, setSelectedInterests] = useState<Interest[]>([]);
   const [selectedActivityType, setSelectedActivityType] = useState<ActivityType | null>(null);
   const [showFreeOnly, setShowFreeOnly] = useState(false);
-  const [viewMode, setViewMode] = useState<"grid" | "list" | "map">("grid");
+  const [viewMode, setViewMode] = useState<"grid" | "list" | "map" | "calendar">("grid");
   const activitiesRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
