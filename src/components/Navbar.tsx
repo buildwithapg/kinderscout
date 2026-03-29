@@ -1,9 +1,16 @@
 import { Heart, Menu, X } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleExploreClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    navigate("/?view=map");
+    setMobileOpen(false);
+  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-card/80 backdrop-blur-md border-b border-border">
@@ -17,7 +24,7 @@ const Navbar = () => {
 
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-6 text-sm font-medium">
-          <Link to="/" className="text-foreground hover:text-primary transition-colors">Explore</Link>
+          <a href="/?view=map" onClick={handleExploreClick} className="text-foreground hover:text-primary transition-colors">Explore</a>
           <button className="text-muted-foreground hover:text-foreground transition-colors">Categories</button>
           <button className="text-muted-foreground hover:text-foreground transition-colors">Calendar</button>
           <button className="flex items-center gap-1 text-muted-foreground hover:text-primary transition-colors">
@@ -37,7 +44,7 @@ const Navbar = () => {
       {/* Mobile menu */}
       {mobileOpen && (
         <div className="md:hidden bg-card border-b border-border px-4 py-4 space-y-3">
-          <Link to="/" className="block text-sm font-medium text-foreground" onClick={() => setMobileOpen(false)}>Explore</Link>
+          <a href="/?view=map" onClick={handleExploreClick} className="block text-sm font-medium text-foreground">Explore</a>
           <button className="block text-sm text-muted-foreground w-full text-left">Categories</button>
           <button className="block text-sm text-muted-foreground w-full text-left">Calendar</button>
           <button className="flex items-center gap-1 text-sm text-muted-foreground">

@@ -1,5 +1,6 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { LayoutGrid, List, MapIcon } from "lucide-react";
+import { useSearchParams } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import FilterBar from "@/components/FilterBar";
@@ -8,6 +9,7 @@ import MapView from "@/components/MapView";
 import { mockEvents, AgeGroup, Interest, ActivityType } from "@/data/mockEvents";
 
 const Index = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
   const [location, setLocation] = useState("");
   const [selectedAgeGroups, setSelectedAgeGroups] = useState<AgeGroup[]>([]);
@@ -15,6 +17,18 @@ const Index = () => {
   const [selectedActivityType, setSelectedActivityType] = useState<ActivityType | null>(null);
   const [showFreeOnly, setShowFreeOnly] = useState(false);
   const [viewMode, setViewMode] = useState<"grid" | "list" | "map">("grid");
+  const activitiesRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (searchParams.get("view") === "map") {
+      setViewMode("map");
+      searchParams.delete("view");
+      setSearchParams(searchParams, { replace: true });
+      setTimeout(() => {
+        activitiesRef.current?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    }
+  }, [searchParams, setSearchParams]);
 
   const filteredEvents = useMemo(() => {
     return mockEvents.filter((event) => {
@@ -56,7 +70,7 @@ const Index = () => {
       <HeroSection onSearch={setSearchQuery} onLocationChange={setLocation} />
 
       {/* Main content */}
-      <section className="container mx-auto px-4 py-8">
+      <section ref={activitiesRef} className="container mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-4">
           <div>
             <h2 className="text-xl md:text-2xl font-bold text-foreground">
