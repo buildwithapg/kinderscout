@@ -24,7 +24,7 @@ const Navbar = () => {
 
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-6 text-sm font-medium">
-          <Link to="/" className="text-foreground hover:text-primary transition-colors">Explore</Link>
+          <a href="/?view=map" onClick={handleExploreClick} className="text-foreground hover:text-primary transition-colors">Explore</a>
           <button className="text-muted-foreground hover:text-foreground transition-colors">Categories</button>
           <button className="text-muted-foreground hover:text-foreground transition-colors">Calendar</button>
           <button className="flex items-center gap-1 text-muted-foreground hover:text-primary transition-colors">
