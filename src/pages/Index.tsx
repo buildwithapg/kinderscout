@@ -1,11 +1,12 @@
 import { useState, useMemo, useEffect, useRef } from "react";
-import { LayoutGrid, List, MapIcon } from "lucide-react";
+import { LayoutGrid, List, MapIcon, CalendarDays } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import FilterBar from "@/components/FilterBar";
 import EventCard from "@/components/EventCard";
 import MapView from "@/components/MapView";
+import CalendarView from "@/components/CalendarView";
 import { mockEvents, AgeGroup, Interest, ActivityType } from "@/data/mockEvents";
 
 const Index = () => {
@@ -16,12 +17,13 @@ const Index = () => {
   const [selectedInterests, setSelectedInterests] = useState<Interest[]>([]);
   const [selectedActivityType, setSelectedActivityType] = useState<ActivityType | null>(null);
   const [showFreeOnly, setShowFreeOnly] = useState(false);
-  const [viewMode, setViewMode] = useState<"grid" | "list" | "map">("grid");
+  const [viewMode, setViewMode] = useState<"grid" | "list" | "map" | "calendar">("grid");
   const activitiesRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (searchParams.get("view") === "map") {
-      setViewMode("map");
+    const view = searchParams.get("view");
+    if (view === "map" || view === "calendar") {
+      setViewMode(view);
       searchParams.delete("view");
       setSearchParams(searchParams, { replace: true });
       setTimeout(() => {
@@ -102,6 +104,12 @@ const Index = () => {
             >
               <MapIcon className="w-4 h-4" />
             </button>
+            <button
+              onClick={() => setViewMode("calendar")}
+              className={`p-2 rounded-md transition-colors ${viewMode === "calendar" ? "bg-card shadow-sm text-foreground" : "text-muted-foreground"}`}
+            >
+              <CalendarDays className="w-4 h-4" />
+            </button>
           </div>
         </div>
 
@@ -119,6 +127,8 @@ const Index = () => {
         {/* Events grid */}
         {viewMode === "map" ? (
           <MapView events={filteredEvents} />
+        ) : viewMode === "calendar" ? (
+          <CalendarView events={filteredEvents} />
         ) : filteredEvents.length > 0 ? (
           <div className={
             viewMode === "grid"

@@ -6,9 +6,9 @@ const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const navigate = useNavigate();
 
-  const handleExploreClick = (e: React.MouseEvent) => {
+  const handleNavClick = (view: string) => (e: React.MouseEvent) => {
     e.preventDefault();
-    navigate("/?view=map");
+    navigate(`/?view=${view}`);
     setMobileOpen(false);
   };
 
@@ -24,9 +24,9 @@ const Navbar = () => {
 
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-6 text-sm font-medium">
-          <a href="/?view=map" onClick={handleExploreClick} className="text-foreground hover:text-primary transition-colors">Explore</a>
+          <a href="/?view=map" onClick={handleNavClick("map")} className="text-foreground hover:text-primary transition-colors">Explore</a>
           <button className="text-muted-foreground hover:text-foreground transition-colors">Categories</button>
-          <button className="text-muted-foreground hover:text-foreground transition-colors">Calendar</button>
+          <a href="/?view=calendar" onClick={handleNavClick("calendar")} className="text-muted-foreground hover:text-foreground transition-colors">Calendar</a>
           <button className="flex items-center gap-1 text-muted-foreground hover:text-primary transition-colors">
             <Heart className="w-4 h-4" /> Saved
           </button>
@@ -44,9 +44,9 @@ const Navbar = () => {
       {/* Mobile menu */}
       {mobileOpen && (
         <div className="md:hidden bg-card border-b border-border px-4 py-4 space-y-3">
-          <a href="/?view=map" onClick={handleExploreClick} className="block text-sm font-medium text-foreground">Explore</a>
+          <a href="/?view=map" onClick={handleNavClick("map")} className="block text-sm font-medium text-foreground">Explore</a>
           <button className="block text-sm text-muted-foreground w-full text-left">Categories</button>
-          <button className="block text-sm text-muted-foreground w-full text-left">Calendar</button>
+          <a href="/?view=calendar" onClick={handleNavClick("calendar")} className="block text-sm text-muted-foreground">Calendar</a>
           <button className="flex items-center gap-1 text-sm text-muted-foreground">
             <Heart className="w-4 h-4" /> Saved
           </button>
