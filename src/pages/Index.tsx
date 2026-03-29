@@ -1,11 +1,12 @@
 import { useState, useMemo, useEffect, useRef } from "react";
-import { LayoutGrid, List, MapIcon } from "lucide-react";
+import { LayoutGrid, List, MapIcon, CalendarDays } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import FilterBar from "@/components/FilterBar";
 import EventCard from "@/components/EventCard";
 import MapView from "@/components/MapView";
+import CalendarView from "@/components/CalendarView";
 import { mockEvents, AgeGroup, Interest, ActivityType } from "@/data/mockEvents";
 
 const Index = () => {
