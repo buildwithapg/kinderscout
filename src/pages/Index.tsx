@@ -127,6 +127,8 @@ const Index = () => {
         {/* Events grid */}
         {viewMode === "map" ? (
           <MapView events={filteredEvents} />
+        ) : viewMode === "calendar" ? (
+          <CalendarView events={filteredEvents} />
         ) : filteredEvents.length > 0 ? (
           <div className={
             viewMode === "grid"
