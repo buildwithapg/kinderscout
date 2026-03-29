@@ -21,8 +21,9 @@ const Index = () => {
   const activitiesRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (searchParams.get("view") === "map") {
-      setViewMode("map");
+    const view = searchParams.get("view");
+    if (view === "map" || view === "calendar") {
+      setViewMode(view);
       searchParams.delete("view");
       setSearchParams(searchParams, { replace: true });
       setTimeout(() => {
