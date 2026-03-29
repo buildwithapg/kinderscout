@@ -6,9 +6,9 @@ const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const navigate = useNavigate();
 
-  const handleExploreClick = (e: React.MouseEvent) => {
+  const handleNavClick = (view: string) => (e: React.MouseEvent) => {
     e.preventDefault();
-    navigate("/?view=map");
+    navigate(`/?view=${view}`);
     setMobileOpen(false);
   };
 
