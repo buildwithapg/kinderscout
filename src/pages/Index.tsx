@@ -36,7 +36,7 @@ const Index = () => {
   }, [searchParams, setSearchParams]);
 
   const filteredEvents = useMemo(() => {
-    return mockEvents.filter((event) => {
+    return events.filter((event) => {
       // Search filter
       if (searchQuery) {
         const q = searchQuery.toLowerCase();
