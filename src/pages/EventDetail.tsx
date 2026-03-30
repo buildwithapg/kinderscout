@@ -1,7 +1,8 @@
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, Calendar, Clock, MapPin, Star, Tag, Users, Heart, ExternalLink } from "lucide-react";
-import { mockEvents } from "@/data/mockEvents";
+import { useEvent } from "@/hooks/useEvents";
 import Navbar from "@/components/Navbar";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const tagColors: Record<string, string> = {
   Sports: "bg-teal-light text-teal",
@@ -16,7 +17,24 @@ const tagColors: Record<string, string> = {
 
 const EventDetail = () => {
   const { id } = useParams();
-  const event = mockEvents.find((e) => e.id === id);
+  const { data: event, isLoading } = useEvent(id);
+
+  if (isLoading) {
+    return (
+      <>
+        <Navbar />
+        <div className="min-h-screen bg-background pt-16">
+          <Skeleton className="h-64 md:h-80 w-full" />
+          <div className="container mx-auto px-4 -mt-8 relative z-10 pb-16">
+            <div className="max-w-3xl mx-auto space-y-4">
+              <Skeleton className="h-8 w-48" />
+              <Skeleton className="h-[500px] rounded-2xl" />
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
 
   if (!event) {
     return (
@@ -51,13 +69,11 @@ const EventDetail = () => {
 
         <div className="container mx-auto px-4 -mt-8 relative z-10 pb-16">
           <div className="max-w-3xl mx-auto">
-            {/* Back link */}
             <Link to="/" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground mb-4 transition-colors">
               <ArrowLeft className="w-4 h-4" /> Back to explore
             </Link>
 
             <div className="bg-card rounded-2xl shadow-card p-6 md:p-8">
-              {/* Tags */}
               <div className="flex flex-wrap gap-2 mb-3">
                 {event.tags.map((tag) => (
                   <span key={tag} className={`text-xs font-semibold px-3 py-1 rounded-full ${tagColors[tag] || "bg-muted text-muted-foreground"}`}>
@@ -71,7 +87,6 @@ const EventDetail = () => {
 
               <h1 className="text-2xl md:text-3xl font-extrabold text-foreground mb-2">{event.title}</h1>
 
-              {/* Rating */}
               <div className="flex items-center gap-2 mb-4">
                 <Star className="w-4 h-4 fill-sunshine text-sunshine" />
                 <span className="text-sm font-semibold text-foreground">{event.rating}</span>
@@ -81,7 +96,6 @@ const EventDetail = () => {
                 </span>
               </div>
 
-              {/* Meta details */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6 p-4 bg-muted rounded-xl">
                 <div className="flex items-center gap-2 text-sm">
                   <Tag className="w-4 h-4 text-primary" />
@@ -103,19 +117,16 @@ const EventDetail = () => {
                 </div>
               </div>
 
-              {/* Full description */}
               <div className="mb-6">
                 <h2 className="text-lg font-bold text-foreground mb-2">About This Activity</h2>
                 <p className="text-sm text-muted-foreground leading-relaxed">{event.fullDescription}</p>
               </div>
 
-              {/* Address */}
               <div className="mb-6 p-4 bg-muted rounded-xl">
                 <h3 className="text-sm font-bold text-foreground mb-1">📍 Location & Directions</h3>
                 <p className="text-sm text-muted-foreground">{event.address}</p>
               </div>
 
-              {/* Organizer */}
               <div className="mb-6 p-4 bg-muted rounded-xl">
                 <div className="flex items-center gap-2 mb-1">
                   <Users className="w-4 h-4 text-primary" />
@@ -124,7 +135,6 @@ const EventDetail = () => {
                 <p className="text-sm text-muted-foreground">{event.organizerDesc}</p>
               </div>
 
-              {/* Action buttons */}
               <div className="flex flex-col sm:flex-row gap-3">
                 <button className="flex-1 gradient-hero text-primary-foreground font-semibold py-3 rounded-xl hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
                   <ExternalLink className="w-4 h-4" /> Register Now
