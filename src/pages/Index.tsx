@@ -7,7 +7,9 @@ import FilterBar from "@/components/FilterBar";
 import EventCard from "@/components/EventCard";
 import MapView from "@/components/MapView";
 import CalendarView from "@/components/CalendarView";
-import { mockEvents, AgeGroup, Interest, ActivityType } from "@/data/mockEvents";
+import { AgeGroup, Interest, ActivityType } from "@/data/mockEvents";
+import { useEvents } from "@/hooks/useEvents";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Index = () => {
   const [searchParams, setSearchParams] = useSearchParams();
