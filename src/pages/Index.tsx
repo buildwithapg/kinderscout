@@ -72,7 +72,16 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
 
-      <HeroSection onSearch={setSearchQuery} onLocationChange={setLocation} />
+      <HeroSection
+        onSearch={setSearchQuery}
+        onLocationChange={setLocation}
+        onExplore={() => {
+          setViewMode("map");
+          setTimeout(() => {
+            activitiesRef.current?.scrollIntoView({ behavior: "smooth" });
+          }, 100);
+        }}
+      />
 
       {/* Main content */}
       <section ref={activitiesRef} className="container mx-auto px-4 py-8">
