@@ -8,7 +8,7 @@ interface HeroSectionProps {
   onExplore?: () => void;
 }
 
-const HeroSection = ({ onSearch, onLocationChange }: HeroSectionProps) => {
+const HeroSection = ({ onSearch, onLocationChange, onExplore }: HeroSectionProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [location, setLocation] = useState("");
 
@@ -16,6 +16,7 @@ const HeroSection = ({ onSearch, onLocationChange }: HeroSectionProps) => {
     e.preventDefault();
     onSearch(searchQuery);
     if (location) onLocationChange(location);
+    onExplore?.();
   };
 
   return (
