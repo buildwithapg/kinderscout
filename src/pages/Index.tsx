@@ -7,9 +7,12 @@ import FilterBar from "@/components/FilterBar";
 import EventCard from "@/components/EventCard";
 import MapView from "@/components/MapView";
 import CalendarView from "@/components/CalendarView";
-import { mockEvents, AgeGroup, Interest, ActivityType } from "@/data/mockEvents";
+import { AgeGroup, Interest, ActivityType } from "@/data/mockEvents";
+import { useEvents } from "@/hooks/useEvents";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Index = () => {
+  const { data: events = [], isLoading } = useEvents();
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
   const [location, setLocation] = useState("");
@@ -33,7 +36,7 @@ const Index = () => {
   }, [searchParams, setSearchParams]);
 
   const filteredEvents = useMemo(() => {
-    return mockEvents.filter((event) => {
+    return events.filter((event) => {
       // Search filter
       if (searchQuery) {
         const q = searchQuery.toLowerCase();
@@ -63,7 +66,7 @@ const Index = () => {
 
       return true;
     });
-  }, [searchQuery, selectedAgeGroups, selectedInterests, selectedActivityType, showFreeOnly]);
+  }, [events, searchQuery, selectedAgeGroups, selectedInterests, selectedActivityType, showFreeOnly]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -125,7 +128,13 @@ const Index = () => {
         />
 
         {/* Events grid */}
-        {viewMode === "map" ? (
+        {isLoading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <Skeleton key={i} className="h-80 rounded-2xl" />
+            ))}
+          </div>
+        ) : viewMode === "map" ? (
           <MapView events={filteredEvents} />
         ) : viewMode === "calendar" ? (
           <CalendarView events={filteredEvents} />
