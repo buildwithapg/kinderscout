@@ -66,7 +66,7 @@ const Index = () => {
 
       return true;
     });
-  }, [searchQuery, selectedAgeGroups, selectedInterests, selectedActivityType, showFreeOnly]);
+  }, [events, searchQuery, selectedAgeGroups, selectedInterests, selectedActivityType, showFreeOnly]);
 
   return (
     <div className="min-h-screen bg-background">
