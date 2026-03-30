@@ -5,6 +5,7 @@ import heroBanner from "@/assets/hero-banner.jpg";
 interface HeroSectionProps {
   onSearch: (query: string) => void;
   onLocationChange: (location: string) => void;
+  onExplore?: () => void;
 }
 
 const HeroSection = ({ onSearch, onLocationChange }: HeroSectionProps) => {
