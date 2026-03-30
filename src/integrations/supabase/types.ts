@@ -14,7 +14,84 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      events: {
+        Row: {
+          activity_type: Database["public"]["Enums"]["activity_type"]
+          address: string
+          age_groups: Database["public"]["Enums"]["age_group"][]
+          age_suitability: string
+          created_at: string
+          date: string
+          description: string
+          full_description: string
+          id: string
+          image_url: string
+          is_free: boolean
+          lat: number
+          lng: number
+          location: string
+          organizer: string
+          organizer_desc: string
+          price: number
+          rating: number
+          review_count: number
+          tags: Database["public"]["Enums"]["interest"][]
+          time: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          activity_type?: Database["public"]["Enums"]["activity_type"]
+          address?: string
+          age_groups?: Database["public"]["Enums"]["age_group"][]
+          age_suitability?: string
+          created_at?: string
+          date: string
+          description: string
+          full_description?: string
+          id?: string
+          image_url?: string
+          is_free?: boolean
+          lat?: number
+          lng?: number
+          location: string
+          organizer?: string
+          organizer_desc?: string
+          price?: number
+          rating?: number
+          review_count?: number
+          tags?: Database["public"]["Enums"]["interest"][]
+          time: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          activity_type?: Database["public"]["Enums"]["activity_type"]
+          address?: string
+          age_groups?: Database["public"]["Enums"]["age_group"][]
+          age_suitability?: string
+          created_at?: string
+          date?: string
+          description?: string
+          full_description?: string
+          id?: string
+          image_url?: string
+          is_free?: boolean
+          lat?: number
+          lng?: number
+          location?: string
+          organizer?: string
+          organizer_desc?: string
+          price?: number
+          rating?: number
+          review_count?: number
+          tags?: Database["public"]["Enums"]["interest"][]
+          time?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +100,17 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      activity_type: "Indoor" | "Outdoor" | "Hybrid"
+      age_group: "toddlers" | "kids" | "pre-teens" | "teens"
+      interest:
+        | "Sports"
+        | "Arts"
+        | "STEM"
+        | "Music"
+        | "Dance"
+        | "Outdoor Adventures"
+        | "Creative"
+        | "Cooking"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +237,19 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      activity_type: ["Indoor", "Outdoor", "Hybrid"],
+      age_group: ["toddlers", "kids", "pre-teens", "teens"],
+      interest: [
+        "Sports",
+        "Arts",
+        "STEM",
+        "Music",
+        "Dance",
+        "Outdoor Adventures",
+        "Creative",
+        "Cooking",
+      ],
+    },
   },
 } as const
